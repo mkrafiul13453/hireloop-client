@@ -5,7 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@heroui/react";
 
-export default function Navbar() {
+export default function NavigationBar() {
     const [menuOpen, setMenuOpen] = useState(false);
     const [activeAuth, setActiveAuth] = useState("");
 
@@ -17,87 +17,46 @@ export default function Navbar() {
 
     return (
         <div className="w-full flex justify-center mt-5">
-            {/* Navbar Container */}
-            <nav className="w-[95%] max-w-6xl bg-[#222222] text-white rounded-2xl px-6 py-4 shadow-lg">
+
+            {/* Navigatio Container */}
+            <nav className="w-[95%] max-w-6xl bg-[#222222] text-white rounded-full px-6 py-3 shadow-lg relative">
+
                 <div className="flex items-center justify-between">
 
-                    {/* Logo */}
+                    {/* LEFT: LOGO */}
                     <Link href="/" className="flex items-center">
                         <Image
-                            src="/logo.png"   
+                            src="/logo.png"
                             alt="Hireloop Logo"
-                            width={130}
+                            width={120}
                             height={40}
                             className="object-contain"
                         />
                     </Link>
 
-                    {/* Desktop Menu */}
-                    <div className="hidden md:flex items-center gap-8">
-                        {navLinks.map((link, index) => (
-                            <Link
-                                key={index}
-                                href={link.href}
-                                className="text-gray-300 hover:text-white transition duration-200"
-                            >
-                                {link.name}
-                            </Link>
-                        ))}
-                    </div>
+                    {/* RIGHT: DESKTOP MENU */}
+                    <div className="hidden md:flex items-center gap-4">
 
-                    {/* Auth Buttons (Desktop) */}
-                    <div className="hidden md:flex items-center gap-3">
+                        {/* NAV LINKS */}
+                        <div className="flex items-center gap-1">
+                            {navLinks.map((link, index) => (
+                                <Link
+                                    key={index}
+                                    href={link.href}
+                                    className="px-4 py-2 rounded-full text-sm text-gray-300 hover:text-white hover:bg-white/10 transition"
+                                >
+                                    {link.name}
+                                </Link>
+                            ))}
+                        </div>
 
-                        <Button
-                            onClick={() => setActiveAuth("signin")}
-                            className={`px-4 py-2 rounded-lg transition duration-200 ${activeAuth === "signin"
-                                    ? "bg-[#5C53FE] text-white"
-                                : "bg-[#5C53FE]/30 hover:bg-[#5C53FE]"
-                                }`}
-                        >
-                            Sign In
-                        </Button>
-
-                        <Button
-                            onClick={() => setActiveAuth("getstarted")}
-                            className={`px-4 py-2 rounded-lg transition duration-200 ${activeAuth === "getstarted"
-                                    ? "bg-[#5C53FE] text-white"
-                                    : "bg-[#5C53FE]/20 hover:bg-[#5C53FE]"
-                                }`}
-                        >
-                            Get Started
-                        </Button>
-                    </div>
-
-                    {/* Mobile Menu Button */}
-                    <button
-                        className="md:hidden text-white text-2xl"
-                        onClick={() => setMenuOpen(!menuOpen)}
-                    >
-                        ☰
-                    </button>
-                </div>
-
-                {/* Mobile Menu */}
-                {menuOpen && (
-                    <div className="md:hidden mt-4 flex flex-col gap-4">
-
-                        {navLinks.map((link, index) => (
-                            <Link
-                                key={index}
-                                href={link.href}
-                                className="text-gray-300 hover:text-white transition"
-                            >
-                                {link.name}
-                            </Link>
-                        ))}
-
-                        <div className="flex flex-col gap-3 mt-2">
+                        {/* AUTH BUTTONS */}
+                        <div className="flex items-center gap-2">
                             <Button
                                 onClick={() => setActiveAuth("signin")}
-                                className={`w-full px-4 py-2 rounded-lg ${activeAuth === "signin"
-                                        ? "bg-[#5C53FE]"
-                                    : "bg-[#5C53FE]/30 hover:bg-[#5C53FE]"
+                                className={`px-4 py-2 rounded-2xl text-sm transition ${activeAuth === "signin"
+                                        ? "bg-[#5C53FE] text-white"
+                                    : "bg-[#5C53FE]/30 hover:bg-[#5C53FE]" 
                                     }`}
                             >
                                 Sign In
@@ -105,13 +64,68 @@ export default function Navbar() {
 
                             <Button
                                 onClick={() => setActiveAuth("getstarted")}
-                                className={`w-full px-4 py-2 rounded-lg ${activeAuth === "getstarted"
-                                        ? "bg-[#5C53FE]"
+                                className={`px-4 py-2 rounded-2xl text-sm transition ${activeAuth === "getstarted"
+                                        ? "bg-[#5C53FE] text-white"
                                         : "bg-[#5C53FE]/30 hover:bg-[#5C53FE]"
                                     }`}
                             >
                                 Get Started
                             </Button>
+                        </div>
+
+                    </div>
+
+                    {/* MOBILE MENU BUTTON */}
+                    <button
+                        className="md:hidden text-white text-2xl"
+                        onClick={() => setMenuOpen(!menuOpen)}
+                    >
+                        ☰
+                    </button>
+
+                </div>
+
+                {/* MOBILE MENU */}
+               
+                {menuOpen && (
+                    <div className="md:hidden absolute left-0 right-0 top-full mt-3 w-full px-4 z-50">
+
+                        <div className="bg-[#222222] rounded-2xl p-4 shadow-xl border border-white/10 flex flex-col gap-3">
+
+                            {navLinks.map((link, index) => (
+                                <Link
+                                    key={index}
+                                    href={link.href}
+                                    className="px-4 py-2 rounded-full bg-white/5 hover:bg-white/10 text-gray-300 hover:text-white transition"
+                                >
+                                    {link.name}
+                                </Link>
+                            ))}
+
+                            <div className="flex flex-col gap-2 mt-3">
+
+                                <Button
+                                    onClick={() => setActiveAuth("signin")}
+                                    className={`w-full rounded-full ${activeAuth === "signin"
+                                            ? "bg-[#5C53FE]"
+                                        : "bg-[#5C53FE]/30 hover:bg-[#5C53FE]"
+                                        }`}
+                                >
+                                    Sign In
+                                </Button>
+
+                                <Button
+                                    onClick={() => setActiveAuth("getstarted")}
+                                    className={`w-full rounded-full ${activeAuth === "getstarted"
+                                            ? "bg-[#5C53FE]"
+                                        : "bg-[#5C53FE]/30 hover:bg-[#5C53FE]"
+                                        }`}
+                                >
+                                    Get Started
+                                </Button>
+
+                            </div>
+
                         </div>
                     </div>
                 )}
