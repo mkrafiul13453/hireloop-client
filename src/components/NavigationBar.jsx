@@ -3,9 +3,24 @@
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Button } from "@heroui/react";
+import { Avatar, Button } from "@heroui/react";
+import { authClient } from "@/lib/auth-client";
+import { toast } from "react-toastify";
+import { redirect } from "next/navigation";
 
 export default function NavigationBar() {
+    const {
+        data: session,
+    } = authClient.useSession()
+    // console.log("Session Data:", session);
+    const user = session?.user;
+    // console.log("Current User:", user);
+
+    const handleLogout = async () => {
+        await authClient.signOut();
+        toast.success("Logged out successfully!");
+        redirect("/");
+    }
     const [menuOpen, setMenuOpen] = useState(false);
     const [activeAuth, setActiveAuth] = useState("");
 
@@ -52,25 +67,42 @@ export default function NavigationBar() {
 
                         {/* AUTH BUTTONS */}
                         <div className="flex items-center gap-2">
-                            <Button
-                                onClick={() => setActiveAuth("signin")}
-                                className={`px-4 py-2 rounded-2xl text-sm transition ${activeAuth === "signin"
-                                        ? "bg-[#5C53FE] text-white"
-                                    : "bg-[#5C53FE]/30 hover:bg-[#5C53FE]" 
-                                    }`}
-                            >
-                                Sign In
-                            </Button>
-
-                            <Button
-                                onClick={() => setActiveAuth("getstarted")}
-                                className={`px-4 py-2 rounded-2xl text-sm transition ${activeAuth === "getstarted"
+                            {
+                                user ? <><Button
+                                    onClick={handleLogout}
+                                    className={`px-4 py-2 rounded-2xl text-sm transition ${activeAuth === "signout"
                                         ? "bg-[#5C53FE] text-white"
                                         : "bg-[#5C53FE]/30 hover:bg-[#5C53FE]"
-                                    }`}
-                            >
-                                Get Started
-                            </Button>
+                                        }`}
+                                >
+                                    Sign Out
+                                </Button><Link href="/profile"> <Avatar >
+                                    <Avatar.Image referrerPolicy="no-referrer" alt={user.name} src={user.image} />
+                                    <Avatar.Fallback>{user.name.charAt(0)}</Avatar.Fallback>
+                                </Avatar></Link></> : <><Link href="/signin">
+                                    <Button
+                                        onClick={() => setActiveAuth("signin")}
+                                        className={`px-4 py-2 rounded-2xl text-sm transition ${activeAuth === "signin"
+                                            ? "bg-[#5C53FE] text-white"
+                                            : "bg-[#5C53FE]/30 hover:bg-[#5C53FE]"
+                                            }`}
+                                    >
+                                        Sign In
+                                    </Button>
+                                </Link>
+
+                                    <Link href="/signup">
+                                        <Button
+                                            onClick={() => setActiveAuth("getstarted")}
+                                            className={`px-4 py-2 rounded-2xl text-sm transition ${activeAuth === "getstarted"
+                                                ? "bg-[#5C53FE] text-white"
+                                                : "bg-[#5C53FE]/30 hover:bg-[#5C53FE]"
+                                                }`}
+                                        >
+                                            Get Started
+                                        </Button>
+                                    </Link></>
+                            }
                         </div>
 
                     </div>
@@ -86,7 +118,7 @@ export default function NavigationBar() {
                 </div>
 
                 {/* MOBILE MENU */}
-               
+
                 {menuOpen && (
                     <div className="md:hidden absolute left-0 right-0 top-full mt-3 w-full px-4 z-50">
 
@@ -103,26 +135,42 @@ export default function NavigationBar() {
                             ))}
 
                             <div className="flex flex-col gap-2 mt-3">
+                                {
+                                    user ? <><Button
+                                        onClick={handleLogout}
+                                        className={`px-4 py-2 rounded-2xl text-sm transition ${activeAuth === "signout"
+                                            ? "bg-[#5C53FE] text-white"
+                                            : "bg-[#5C53FE]/30 hover:bg-[#5C53FE]"
+                                            }`}
+                                    >
+                                        Sign Out
+                                    </Button><Link href="/profile"> <Avatar >
+                                        <Avatar.Image referrerPolicy="no-referrer" alt={user.name} src={user.image} />
+                                        <Avatar.Fallback>{user.name.charAt(0)}</Avatar.Fallback>
+                                    </Avatar></Link></> : <><Link href="/signin">
+                                        <Button
+                                            onClick={() => setActiveAuth("signin")}
+                                            className={`px-4 py-2 rounded-2xl text-sm transition ${activeAuth === "signin"
+                                                ? "bg-[#5C53FE] text-white"
+                                                : "bg-[#5C53FE]/30 hover:bg-[#5C53FE]"
+                                                }`}
+                                        >
+                                            Sign In
+                                        </Button>
+                                    </Link>
 
-                                <Button
-                                    onClick={() => setActiveAuth("signin")}
-                                    className={`w-full rounded-full ${activeAuth === "signin"
-                                            ? "bg-[#5C53FE]"
-                                        : "bg-[#5C53FE]/30 hover:bg-[#5C53FE]"
-                                        }`}
-                                >
-                                    Sign In
-                                </Button>
-
-                                <Button
-                                    onClick={() => setActiveAuth("getstarted")}
-                                    className={`w-full rounded-full ${activeAuth === "getstarted"
-                                            ? "bg-[#5C53FE]"
-                                        : "bg-[#5C53FE]/30 hover:bg-[#5C53FE]"
-                                        }`}
-                                >
-                                    Get Started
-                                </Button>
+                                        <Link href="/signup">
+                                            <Button
+                                                onClick={() => setActiveAuth("getstarted")}
+                                                className={`px-4 py-2 rounded-2xl text-sm transition ${activeAuth === "getstarted"
+                                                    ? "bg-[#5C53FE] text-white"
+                                                    : "bg-[#5C53FE]/30 hover:bg-[#5C53FE]"
+                                                    }`}
+                                            >
+                                                Get Started
+                                            </Button>
+                                        </Link></>
+                                }
 
                             </div>
 
