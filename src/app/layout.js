@@ -22,8 +22,8 @@ export default function RootLayout({ children }) {
   return (
     <html
       lang="en"
-      data-theme="dark"
-      className={`${geistSans.variable} ${geistMono.variable} dark  h-full antialiased`}
+      data-theme="dark-black"
+      className={`${geistSans.variable} ${geistMono.variable} bg-black  h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
         <NavigationBar />

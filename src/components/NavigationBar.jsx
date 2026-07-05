@@ -19,7 +19,7 @@ export default function NavigationBar() {
         <div className="w-full flex justify-center mt-5">
 
             {/* Navigatio Container */}
-            <nav className="w-[95%] max-w-6xl bg-[#222222] text-white rounded-full px-6 py-3 shadow-lg relative">
+            <nav className="w-[95%] max-w-6xl bg-black text-white rounded-full px-6 py-3 shadow-lg relative">
 
                 <div className="flex items-center justify-between">
 
