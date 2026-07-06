@@ -3,7 +3,7 @@ import { MongoClient } from "mongodb";
 import { mongodbAdapter } from "better-auth/adapters/mongodb";
 import { role } from "better-auth/client";
 
-const client = new MongoClient(process.env.MONG0_DB_URI);
+const client = new MongoClient(process.env.MONGO_DB_URI);
 const db = client.db(process.env.AUTH_BD_NAME);
 
 export const auth = betterAuth({
