@@ -13,6 +13,9 @@ import {
 } from "@heroui/react";
 
 import { FiBriefcase, FiSend } from "react-icons/fi";
+import { createJob } from "@/lib/actions/job";
+import { toast } from "react-toastify";
+import { redirect } from "next/navigation";
 
 export default function NewJobPage({ recruiterCompany }) {
     const [form, setForm] = useState({
@@ -68,7 +71,16 @@ export default function NewJobPage({ recruiterCompany }) {
             status: "active",
         };
 
-        console.log("Submitting Job:", payload);
+        const res = await createJob(payload);
+        if (res.insertedId) {
+            toast.success("Job created successfully!");
+            redirect("/dashboard/recruiter");
+        } else {
+            toast.error("Failed to create job");
+        }
+
+
+        // console.log("Submitting Job:", payload);
 
         // Example API call
         // await fetch("/api/jobs", {
